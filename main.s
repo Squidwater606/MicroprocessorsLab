@@ -2,6 +2,7 @@
 
 extrn	UART_Setup, UART_Transmit_Message  ; external subroutines
 extrn	LCD_Setup, LCD_Write_Message
+extrn	keyPad_Setup, keyPad_Read
 	
 psect	udata_acs   ; reserve data space in access ram
 counter:    ds 1    ; reserve one byte for a counter variable
@@ -27,7 +28,9 @@ setup:	bcf	CFGS	; point to Flash program memory
 	bsf	EEPGD 	; access Flash program memory
 	call	UART_Setup	; setup UART
 	call	LCD_Setup	; setup UART
-	goto	start
+	call	keyPad_Setup
+	call	keyPad_Read
+	goto	setup
 	
 	; ******* Main programme ****************************************
 start: 	lfsr	0, myArray	; Load FSR0 with address in RAM	
@@ -45,7 +48,7 @@ loop: 	tblrd*+			; one byte from PM to TABLAT, increment TBLPRT
 	bra	loop		; keep going until finished
 		
 	movlw	myTable_l	; output message to UART
-	lfsr	2, myArray
+	lfsr	2, myArray	; loads RAM address FSR0 with myArray
 	call	UART_Transmit_Message
 
 	movlw	myTable_l	; output message to LCD
