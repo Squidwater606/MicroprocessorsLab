@@ -38,13 +38,14 @@ keyPad_Read:
     ;movff   row_pos, PORTF
     ;call    delay
 
-    clrf    pos, A
     movf    column_pos,	w, A
     addwf   pos, f, A
     movf    row_pos, w, A
     addwf   pos, f, A
+
     call    delay
     movff   pos, PORTD
+    clrf    pos, A
     
     return
 
