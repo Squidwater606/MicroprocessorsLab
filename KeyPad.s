@@ -26,7 +26,7 @@ keyPad_Read:
     call    delay
     movf    PORTE, w, A
     
-    iorwf   pos
+    iorwf   pos, A
     movff   pos, PORTD
     clrf    pos, A
     
