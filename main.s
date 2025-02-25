@@ -2,7 +2,7 @@
 
 extrn	UART_Setup, UART_Transmit_Message  ; external subroutines
 extrn	LCD_Setup, LCD_Write_Message
-extrn	keyPad_Setup, keyPad_Read, delay, delay_count
+extrn	keyPad_Setup, keyPad_Read, keyPad_Display, delay, delay_count
 
 psect	udata_acs   ; reserve data space in access ram
 counter:    ds 1    ; reserve one byte for a counter variable
@@ -31,6 +31,7 @@ setup:	;bcf	CFGS	; point to Flash program memory
 read:
 	call	keyPad_Read
 	call	delay
+	call	keyPad_Display
 	goto	read
 
 	; ******* Main programme ****************************************

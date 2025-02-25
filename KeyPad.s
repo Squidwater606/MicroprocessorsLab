@@ -1,22 +1,22 @@
 #include <xc.inc>
     
-global  keyPad_Setup, keyPad_Read, delay, delay_count
+global  keyPad_Setup, keyPad_Read, keyPad_Display, delay, delay_count
 
 psect	udata_acs   ; reserve data space in access ram
 pos_read:   ds 1
 pos_store:  ds 1
-count:	    ds 1
+counter:    ds 1
 delay_count:ds 1    ; reserve one byte for counter in the delay routine
 
 psect	data
 posValid:
-    db	0x77, 0x7B, 0x7D, 0x7E, 0xB7, 0xBB, 0xBD, 0xBE,
+    db	0x77, 0x7B, 0x7D, 0x7E, 0xB7, 0xBB, 0xBD, 0xBE
     db	0xD7, 0xDB, 0xDD, 0xDE, 0xE7, 0xEB, 0xED, 0xEE
     posValid_1 EQU 0x10
     align 2
 
 keys:
-    db	'C', 'B', '0', 'A', 'D', '9', '8', '7',
+    db	'C', 'B', '0', 'A', 'D', '9', '8', '7'
     db	'E', '6', '5', '4', 'F', '3', '2', '1'
     keys_1 EQU 0x10
     align 2
@@ -73,11 +73,18 @@ keyPad_Read:
     movf    PORTE, w, A
     
     iorwf   pos_read, A
-    movff   pos_read, PORTD
-    clrf    pos_read, A
+    ;movff   pos_read, PORTD
+    ;clrf    pos_read, A
 
-;loopDecode:
-    
+loopDecode:
+    cpfseq  POSTINC0, A
+    bra	    loopDecode
+    movff   pos_read, pos_store
+
+    return
+
+keyPad_Display:
+    movff   pos_store, PORTD
     return
 
 delay:
