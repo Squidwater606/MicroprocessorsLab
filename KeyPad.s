@@ -77,6 +77,7 @@ keyPad_Read:
     ;clrf    pos_read, A
 
 loopDecode:
+    ; make this only the table
     cpfseq  POSTINC0, A
     bra	    loopDecode
     ; set true statement here, add another compare and implement loops as necessary
