@@ -79,6 +79,7 @@ keyPad_Read:
 loopDecode:
     cpfseq  POSTINC0, A
     bra	    loopDecode
+    ; set true statement here, add another compare and implement loops as necessary
     movff   pos_read, pos_store
 
     return
