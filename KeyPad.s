@@ -6,6 +6,7 @@ psect   udata_acs   ; reserve data space in access ram
 pos_read:   ds 1
 pos_store:  ds 1
 load_count: ds 1
+validate_count:	ds 1
 delay_count: ds 1    ; reserve one byte for counter in the delay routine
 
 psect   data
@@ -28,7 +29,7 @@ keyPad_Setup:
     movlb   0x00
     clrf    LATE, A ; 
     clrf    TRISD, A
-    clrf    TRISJ, A
+;    clrf    TRISJ, A
 
 posValid_Setup:
     lfsr    0, posValid ; Load FSR0 with address in RAM 
@@ -74,16 +75,16 @@ keyPad_Read:
     movf    PORTE, w, A
     
     iorwf   pos_read, A
-    movff   pos_read, PORTJ
+    movff   pos_read, PORTD
 
     ; Check for valid input
-    call    validate_input
+;    call    validate_input
 
     ; If valid input, store in pos_store
-    cpfseq  pos_read, A   ; Compare with previous input
-    return                ; If same as previous, return
-    movff   pos_read, pos_store
-    movff   pos_store, PORTD
+;    cpfseq  pos_read, A   ; Compare with previous input
+;    return                ; If same as previous, return
+;    movff   pos_read, pos_store
+;    movff   pos_store, PORTD
     return
 
 delay:
@@ -91,14 +92,14 @@ delay:
     bra     delay
     return
 
-validate_input:
-    lfsr    0, posValid   ; Load FSR0 with address of posValid table
-    movlw   posValid_1    ; Load number of valid positions
-    movf   pos_read, w, A
-validate_loop:
-    cpfseq  POSTINC0, A
-    bra     validate_loop
-    movf   pos_read, w, A
-    return
+;validate_input:
+;    movff   posValid_1, validate_count    ; Load number of valid positions
+;validate_loop:
+;    decfsz  validate_count, A
+;    bra keyPad_Read
+;    cpfseq  POSTINC0, A
+;    bra     validate_loop
+;    movf   pos_read, w, A
+;    return
 
     end
