@@ -1,6 +1,7 @@
 #include <xc.inc>
 	
 global	Phase_Setup_4, IO_Setup_4, Lookup_Setup_4, NCO_Int_Hi_4  ; global routines
+global	Phase_Jump_4, Phase_Accum_4, Lookup_Ptr_4 ; global variables
 extrn	Lookup_Table	; global data
 
 psect	udata_acs   ; reserve data space in access ram
