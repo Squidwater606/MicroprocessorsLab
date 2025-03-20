@@ -41,7 +41,7 @@ Phase_Amp_1:
 	movwf	TBLPTRL,	   A
  Phase_Amp_3:
 	tblrd*
-	movff	TABLAT, LATG
+	movff	TABLAT, LATE
   Pointer_Ld_4:
 	movf	Lookup_Ptr_4 + 2, W, A
 	movwf	TBLPTRU,	   A
@@ -51,7 +51,7 @@ Phase_Amp_1:
 	movwf	TBLPTRL,	   A
  Phase_Amp_4:
 	tblrd*
-	movff	TABLAT, LATF
+	movff	TABLAT, LATD
 Re_Init:
 	movlw	low highword(Lookup_Table)	; address of data in PM
 	movwf	Lookup_Ptr_1 + 2,    A		; load upper bits to TBLPTRU
@@ -64,10 +64,10 @@ Re_Init:
   	movwf	Lookup_Ptr_3 + 1,    A
    	movwf	Lookup_Ptr_4 + 1,    A
 	movlw	low(Lookup_Table)
-	movwf	Lookup_Ptr_1,	   A
- 	movwf	Lookup_Ptr_2,	   A
-  	movwf	Lookup_Ptr_3,	   A
-   	movwf	Lookup_Ptr_4,	   A
+	movwf	Lookup_Ptr_1,	A
+ 	movwf	Lookup_Ptr_2,	A
+  	movwf	Lookup_Ptr_3,	A
+   	movwf	Lookup_Ptr_4,	A
 Phase_Inc_1:
 	movf	Phase_Jump_1, W,	A
 	addwf	Phase_Accum_1,	A
@@ -120,4 +120,3 @@ Pointer_Inc_1:
 	retfie	f		; fast return from interrupt
 
 	end
-
