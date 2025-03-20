@@ -23,8 +23,8 @@ Phase_Setup_3:
 	return
 
 IO_Setup_3:
-	clrf	TRISG,	A	; Set PORTG as all outputs
-	clrf	LATG,	A	; Clear PORTG outputs
+	clrf	TRISE,	A	; Set PORTE as all outputs
+	clrf	LATE,	A	; Clear PORTE outputs
  	return
 
 Lookup_Setup_3:
