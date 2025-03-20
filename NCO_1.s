@@ -1,6 +1,6 @@
 #include <xc.inc>
 	
-global	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1, DDS_Int_Hi_1  ; global routines
+global	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1, NCO_Int_Hi_1  ; global routines
 extrn	Lookup_Table	; global data
 
 psect	udata_acs   ; reserve data space in access ram
@@ -29,7 +29,7 @@ IO_Setup_1:
 Lookup_Setup_1:
 	bcf	CFGS			; point to Flash program memory  
 	bsf	EEPGD			; access Flash program memory
-Lookup_Init:
+Lookup_Init_1:
 	movlw	low highword(Lookup_Table)	; address of data in PM
 	movwf	Lookup_Ptr_1 + 2,    A		; load upper bits to TBLPTRU
 	movlw	high(Lookup_Table)		; address of data in PM
@@ -38,32 +38,32 @@ Lookup_Init:
 	movwf	Lookup_Ptr_1,	   A		; load low byte to TBLPTRL
 	return
 
-DDS_Int_Hi:	
+NCO_Int_Hi_1:	
 	btfss	TMR0IF		; check that this is timer0 interrupt
 	retfie	f		; if not then return
-Pointer_Ld:
+Pointer_Ld_1:
 	movf	Lookup_Ptr_1 + 2, W, A
 	movwf	TBLPTRU,	   A
 	movf	Lookup_Ptr_1 + 1, W, A
 	movwf	TBLPTRH,	   A
 	movf	Lookup_Ptr_1,	W, A
 	movwf	TBLPTRL,	   A
-Phase_Amp:
+Phase_Amp_1:
 	tblrd*
 	movff	TABLAT, LATJ
-Re_Init:
+Re_Init_1:
 	movlw	low highword(Lookup_Table)	; address of data in PM
 	movwf	Lookup_Ptr_1 + 2,    A		; load upper bits to TBLPTRU
 	movlw	high(Lookup_Table)		; address of data in PM
 	movwf	Lookup_Ptr_1 + 1,    A		; load high byte to TBLPTRH
 	movlw	low(Lookup_Table)		; address of data in PM
 	movwf	Lookup_Ptr_1,	   A		; load low byte to TBLPTRL
-Phase_Inc:
+Phase_Inc_1:
 	movf	Phase_Jump_1, W,	A
 	addwf	Phase_Accum_1,	A
 	movf	Phase_Jump_1 + 1,	W,  A
 	addwfc	Phase_Accum_1 + 1,    A
-Pointer_Inc:
+Pointer_Inc_1:
 	movf	Phase_Accum_1,	W,  A
 	addwf	Lookup_Ptr_1,	A
 	movf	Phase_Accum_1 + 1,	W,  A
