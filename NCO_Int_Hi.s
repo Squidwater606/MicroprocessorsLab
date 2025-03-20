@@ -8,10 +8,12 @@ Phase_Jump_1:	ds  2
 Phase_Jump_2:	ds  2
 Phase_Jump_3:	ds  2
 Phase_Jump_4:	ds  2
+
 Phase_Accum_1:	ds  2
 Phase_Accum_2:	ds  2
 Phase_Accum_3:	ds  2
 Phase_Accum_4:	ds  2
+
 Lookup_Ptr_1:	ds  3
 Lookup_Ptr_2:	ds  3
 Lookup_Ptr_3:	ds  3
