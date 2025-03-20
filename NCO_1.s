@@ -1,13 +1,12 @@
 #include <xc.inc>
 	
 global	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1, DDS_Int_Hi_1  ; global routines
-global	Phase_Jump_1, Phase_Accum_1, Lookup_Ptr_1
 extrn	Lookup_Table	; global data
 
 psect	udata_acs   ; reserve data space in access ram
 Phase_Jump_1:	ds  2
-Phase_Accum:	ds  2
-Lookup_Ptr:	ds  3
+Phase_Accum_1:	ds  2
+Lookup_Ptr_1:	ds  3
 
 psect	dac_code, class=CODE
 
