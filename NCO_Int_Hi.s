@@ -5,11 +5,19 @@ extrn	Lookup_Table	; global data
 
 psect	udata_acs   ; reserve data space in access ram
 Phase_Jump_1:	ds  2
+Phase_Jump_2:	ds  2
+Phase_Jump_3:	ds  2
+Phase_Jump_4:	ds  2
 Phase_Accum_1:	ds  2
+Phase_Accum_2:	ds  2
+Phase_Accum_3:	ds  2
+Phase_Accum_4:	ds  2
 Lookup_Ptr_1:	ds  3
+Lookup_Ptr_2:	ds  3
+Lookup_Ptr_3:	ds  3
+Lookup_Ptr_4:	ds  3
 
 psect	nco_int_code, class=CODE
-
 
  NCO_Int_Hi:
 	btfss	TMR0IF		; check that this is timer0 interrupt
