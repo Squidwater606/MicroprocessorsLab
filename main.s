@@ -15,8 +15,17 @@ Int_Hi:	org	0x0008	; high vector, no low vector
 	
 Start:	call	Timer_Setup
 	call	Phase_Setup_1
+ 	call	Phase_Setup_2
+  	call	Phase_Setup_3
+   	call	Phase_Setup_4
 	call	IO_Setup_1
+ 	call	IO_Setup_2
+  	call	IO_Setup_3
+   	call	IO_Setup_4
 	call	Lookup_Setup_1
+ 	call	Lookup_Setup_2
+	call	Lookup_Setup_3
+ 	call	Lookup_Setup_4
 	goto	$	; Sit in infinite loop
 
 Timer_Setup:
