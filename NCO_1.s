@@ -8,7 +8,7 @@ Phase_Jump_1:	ds  2
 Phase_Accum_1:	ds  2
 Lookup_Ptr_1:	ds  3
 
-psect	dac_code, class=CODE
+psect	nco_code_1, class=CODE
 
 Phase_Setup_1:
 	clrf	Phase_Accum_1 + 1,    A
