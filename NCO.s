@@ -16,9 +16,9 @@ Phase_Setup:
 	clrf	Phase_Accum,	    A
 	clrf	Phase_Jump + 1,	    A
 	clrf	Phase_Jump,	    A
-	movlw	0xFF
+	movlw	0xB8
 	movwf	Phase_Jump,	    A
-	movlw	0x00
+	movlw	0x01
 	movwf	Phase_Jump + 1,	    A
 	return
 
