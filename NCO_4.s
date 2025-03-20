@@ -23,8 +23,8 @@ Phase_Setup_4:
 	return
 
 IO_Setup_4:
-	clrf	TRISF,	A	; Set PORTF as all outputs
-	clrf	LATF,	A	; Clear PORTF outputs
+	clrf	TRISD,	A	; Set PORTD as all outputs
+	clrf	LATD,	A	; Clear PORTD outputs
  	return
 
 Lookup_Setup_4:
