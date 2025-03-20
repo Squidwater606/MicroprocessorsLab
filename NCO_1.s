@@ -1,6 +1,6 @@
 #include <xc.inc>
 	
-global	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1, NCO_Int_Hi_1  ; global routines
+global	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1  ; global routines
 global	Phase_Jump_1, Phase_Accum_1, Lookup_Ptr_1 ; global variables
 extrn	Lookup_Table	; global data
 
