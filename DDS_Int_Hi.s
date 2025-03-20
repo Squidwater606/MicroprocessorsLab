@@ -10,7 +10,7 @@ Lookup_Ptr_1:	ds  3
 
 psect	nco_int_code, class=CODE
 
-NCO_Int_Hi:
+NCO_Int_Hi_1:
 	btfss	TMR0IF		; check that this is timer0 interrupt
 	retfie	f		; if not then return
 Pointer_Ld_1:
@@ -42,6 +42,41 @@ Pointer_Inc_1:
 	addwfc	Lookup_Ptr_1 + 1,	A
 	movlw	0x00
 	addwfc	Lookup_Ptr_1 + 2,	A
+	bcf	TMR0IF		; clear interrupt flag
+	retfie	f		; fast return from interrupt
+
+NCO_Int_Hi_2:	
+	btfss	TMR0IF		; check that this is timer0 interrupt
+	retfie	f		; if not then return
+Pointer_Ld_2:
+	movf	Lookup_Ptr_2 + 2, W, A
+	movwf	TBLPTRU,	   A
+	movf	Lookup_Ptr_2 + 1, W, A
+	movwf	TBLPTRH,	   A
+	movf	Lookup_Ptr_2,	W, A
+	movwf	TBLPTRL,	   A
+Phase_Amp_2:
+	tblrd*
+	movff	TABLAT, LATH
+Re_Init_2:
+	movlw	low highword(Lookup_Table)	; address of data in PM
+	movwf	Lookup_Ptr_2 + 2,    A		; load upper bits to TBLPTRU
+	movlw	high(Lookup_Table)		; address of data in PM
+	movwf	Lookup_Ptr_2 + 1,    A		; load high byte to TBLPTRH
+	movlw	low(Lookup_Table)		; address of data in PM
+	movwf	Lookup_Ptr_2,	   A		; load low byte to TBLPTRL
+Phase_Inc_2:
+	movf	Phase_Jump_2, W,	A
+	addwf	Phase_Accum_2,	A
+	movf	Phase_Jump_2 + 1,	W,  A
+	addwfc	Phase_Accum_2 + 1,    A
+Pointer_Inc_2:
+	movf	Phase_Accum_2,	W,  A
+	addwf	Lookup_Ptr_2,	A
+	movf	Phase_Accum_2 + 1,	W,  A
+	addwfc	Lookup_Ptr_2 + 1,	A
+	movlw	0x00
+	addwfc	Lookup_Ptr_2 + 2,	A
 	bcf	TMR0IF		; clear interrupt flag
 	retfie	f		; fast return from interrupt
 
