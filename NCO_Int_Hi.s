@@ -59,15 +59,15 @@ Re_Init:
   	movwf	Lookup_Ptr_3 + 2,    A		; load upper bits to TBLPTRU
    	movwf	Lookup_Ptr_4 + 2,    A		; load upper bits to TBLPTRU
 	movlw	high(Lookup_Table)		; address of data in PM
-	movwf	Lookup_Ptr_1 + 1,    A		; load high byte to TBLPTRH
- 	movwf	Lookup_Ptr_2 + 1,    A		; load high byte to TBLPTRH
-  	movwf	Lookup_Ptr_3 + 1,    A		; load high byte to TBLPTRH
-   	movwf	Lookup_Ptr_4 + 1,    A		; load high byte to TBLPTRH
-	movlw	low(Lookup_Table)		; address of data in PM
-	movwf	Lookup_Ptr_1,	   A		; load low byte to TBLPTRL
- 	movwf	Lookup_Ptr_2,	   A		; load low byte to TBLPTRL
-  	movwf	Lookup_Ptr_3,	   A		; load low byte to TBLPTRL
-   	movwf	Lookup_Ptr_4,	   A		; load low byte to TBLPTRL
+	movwf	Lookup_Ptr_1 + 1,    A
+ 	movwf	Lookup_Ptr_2 + 1,    A
+  	movwf	Lookup_Ptr_3 + 1,    A
+   	movwf	Lookup_Ptr_4 + 1,    A
+	movlw	low(Lookup_Table)
+	movwf	Lookup_Ptr_1,	   A
+ 	movwf	Lookup_Ptr_2,	   A
+  	movwf	Lookup_Ptr_3,	   A
+   	movwf	Lookup_Ptr_4,	   A
 Phase_Inc_1:
 	movf	Phase_Jump_1, W,	A
 	addwf	Phase_Accum_1,	A
@@ -119,6 +119,5 @@ Pointer_Inc_1:
 	bcf	TMR0IF		; clear interrupt flag
 	retfie	f		; fast return from interrupt
 
- 
 	end
 
