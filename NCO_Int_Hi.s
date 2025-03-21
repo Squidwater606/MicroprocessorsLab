@@ -87,7 +87,7 @@ Phase_Inc_1:
 	movf	Phase_Jump_4, W,	A
 	addwf	Phase_Accum_4,	A
 	movf	Phase_Jump_4 + 1,	W,  A
-	addwfc	Phase_Accum_1 + 1,    A
+	addwfc	Phase_Accum_4 + 1,    A
 Pointer_Inc_1:
 	movf	Phase_Accum_1,	W,  A
 	addwf	Lookup_Ptr_1,	A
