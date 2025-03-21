@@ -3,27 +3,24 @@
 //keypad takes inputs, generates outputs
 //these can then be loaded into main.s or the DDS signal generator as need be
 
-global  keyPad_Setup, keyPad_Read , delay, delay_count, value_1, value_2, value_3, value_4
+global  keyPad_Setup, keyPad_Read
+global	Phase_Jump_1, Phase_Jump_2, Phase_Jump_3, Phase_Jump_4
 
 psect   udata_acs	    ; reserve data space in access ram
 col_1:	    ds 1
 col_2:	    ds 1
-value_1:    ds 2
-value_2:    ds 2
-value_3:    ds 2
-value_4:    ds 2
-;load_count: ds 1
-;validate_count:	ds 1
+Phase_Jump_1:    ds 2
+Phase_Jump_2:    ds 2
+Phase_Jump_3:    ds 2
+Phase_Jump_4:    ds 2
 delay_count: ds 1	    ; reserve one byte for counter in the delay routine
 
-    
+psect	keypad_code, class=CODE
     
 keyPad_Setup:   
-    movlb   0x0F	    ; select bank 15 (contains PADCFG1)
-    bcf     RCPU	    ; turn off pull-ups on C register
     movlb   0x00	    ;
     clrf    LATC, A	    ;write 0s to LATC register
-    movlw   00001100b	    ;set RC2, RC3 to inputs
+    movlw   00001100B	    ;set RC2, RC3 to inputs
     movwf   TRISC, A	    ;RC0, RC1 are outputs; RC2, RC3 are inputs
     
     
@@ -39,6 +36,7 @@ keyPad_Read:
     ;each hex number should output four numbers; if only one key is pressed,
     ; only one of the values will be >0, whereas is two keys are pressed, 
     ; two values will be >0, etc
+
     movlw   00000001B		;drive RC0 high
     movwf   LATC, A		;read port C
     call    delay		;delay
@@ -173,278 +171,276 @@ keyPad_Decode20:
     bra	    keyPad_Decode1	;if not, branch to first check
     bra	    keyPad_Value1_2_3_4	;if yes, move to value
     
-    
-    
 keyPad_Value0:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value2:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value3:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value4:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_2:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_3:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_4:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value2_3:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value2_4:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
  
 keyPad_Value3_4:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
 
 keyPad_Value1_2_3:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x00
-    movwf   value_4, A
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_2_4:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x00
-    movwf   value_3, A
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_3_4:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x00
-    movwf   value_2, A
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value2_3_4:
     movlw   0x00
-    movwf   value_1, A
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
     
 keyPad_Value1_2_3_4:
     movlw   0xB8
-    movwf   value_1, A
+    movwf   Phase_Jump_1, A
     movlw   0x01
-    movwf   value_1 + 1, A
+    movwf   Phase_Jump_1 + 1, A
     movlw   0x2A
-    movwf   value_2, A
+    movwf   Phase_Jump_2, A
     movlw   0x02
-    movwf   value_2 + 1, A
+    movwf   Phase_Jump_2 + 1, A
     movlw   0x93
-    movwf   value_3, A
+    movwf   Phase_Jump_3, A
     movlw   0x02
-    movwf   value_3 + 1, A
+    movwf   Phase_Jump_3 + 1, A
     movlw   0x3F
-    movwf   value_4, A
+    movwf   Phase_Jump_4, A
     movlw   0x03
-    movwf   value_4 + 1, A
+    movwf   Phase_Jump_4 + 1, A
     return
 
     
