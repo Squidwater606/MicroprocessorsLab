@@ -18,10 +18,12 @@ delay_count: ds 1	    ; reserve one byte for counter in the delay routine
 
     
     
-keyPad_Setup:
-    clrf    TRISC, A
+keyPad_Setup:   
+    movlb   0x0F	    ; select bank 15 (contains PADCFG1)
+    bcf     RCPU	    ; turn off pull-ups on C register
+    movlb   0x00	    ;
     clrf    LATC, A	    ;write 0s to LATC register
-    movlw   00001100B	    ;set RC2, RC3 to inputs
+    movlw   00001100b	    ;set RC2, RC3 to inputs
     movwf   TRISC, A	    ;RC0, RC1 are outputs; RC2, RC3 are inputs
     
     
@@ -242,67 +244,99 @@ keyPad_Value4:
     movwf   value_1 + 1, A
     movlw   0x00
     movwf   value_2, A
+    movwf   value_2 + 1, A
     movlw   0x00
     movwf   value_3, A
-    movlw   0x33F
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_2:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
-    movlw   0x22A
+    movlw   0x01
+    movwf   value_1 + 1, A
+    movlw   0x2A
     movwf   value_2, A
+    movlw   0x02
+    movwf   value_2 + 1, A
     movlw   0x00
     movwf   value_3, A
+    movwf   value_3 + 1, A
     movlw   0x00
     movwf   value_4, A
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_3:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
+    movlw   0x01
+    movwf   value_1 + 1, A
     movlw   0x00
     movwf   value_2, A
-    movlw   0x293
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
+    movlw   0x02
+    movwf   value_3 + 1, A
     movlw   0x00
     movwf   value_4, A
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_4:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
+    movlw   0x01
+    movwf   value_1 + 1, A
     movlw   0x00
     movwf   value_2, A
+    movwf   value_2 + 1, A
     movlw   0x00
     movwf   value_3, A
-    movlw   0x33F
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value2_3:
     movlw   0x00
     movwf   value_1, A
     movwf   value_1 + 1, A
-    movlw   0x22A
+    movlw   0x2A
     movwf   value_2, A
-    movlw   0x293
+    movlw   0x02
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
+    movlw   0x02
+    movwf   value_3 + 1, A
     movlw   0x00
     movwf   value_4, A
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value2_4:
     movlw   0x00
     movwf   value_1, A
     movwf   value_1 + 1, A
-    movlw   0x22A
+    movlw   0x2A
     movwf   value_2, A
+    movlw   0x02
+    movwf   value_2 + 1, A
     movlw   0x00
     movwf   value_3, A
-    movlw   0x33F
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
  
 keyPad_Value3_4:
@@ -311,66 +345,106 @@ keyPad_Value3_4:
     movwf   value_1 + 1, A
     movlw   0x00
     movwf   value_2, A
-    movlw   0x293
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
-    movlw   0x33F
+    movlw   0x02
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
 
 keyPad_Value1_2_3:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
-    movlw   0x22A
+    movlw   0x01
+    movwf   value_1 + 1, A
+    movlw   0x2A
     movwf   value_2, A
-    movlw   0x293
+    movlw   0x02
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
+    movlw   0x02
+    movwf   value_3 + 1, A
     movlw   0x00
     movwf   value_4, A
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_2_4:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
-    movlw   0x22A
+    movlw   0x01
+    movwf   value_1 + 1, A
+    movlw   0x2A
     movwf   value_2, A
+    movlw   0x02
+    movwf   value_2 + 1, A
     movlw   0x00
     movwf   value_3, A
-    movlw   0x33F
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_3_4:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
+    movlw   0x01
+    movwf   value_1 + 1, A
     movlw   0x00
     movwf   value_2, A
-    movlw   0x293
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
-    movlw   0x33F
+    movlw   0x02
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value2_3_4:
     movlw   0x00
     movwf   value_1, A
     movwf   value_1 + 1, A
-    movlw   0x22A
+    movlw   0x2A
     movwf   value_2, A
-    movlw   0x293
+    movlw   0x02
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
-    movlw   0x33F
+    movlw   0x02
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
     
 keyPad_Value1_2_3_4:
-    movlw   0x1B8
+    movlw   0xB8
     movwf   value_1, A
-    movlw   0x22A
+    movlw   0x01
+    movwf   value_1 + 1, A
+    movlw   0x2A
     movwf   value_2, A
-    movlw   0x293
+    movlw   0x02
+    movwf   value_2 + 1, A
+    movlw   0x93
     movwf   value_3, A
-    movlw   0x33F
+    movlw   0x02
+    movwf   value_3 + 1, A
+    movlw   0x3F
     movwf   value_4, A
+    movlw   0x03
+    movwf   value_4 + 1, A
     return
 
     
