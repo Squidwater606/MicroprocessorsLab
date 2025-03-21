@@ -3,9 +3,9 @@
 global	Phase_Setup_2, IO_Setup_2, Lookup_Setup_2  ; global routines
 global	Phase_Jump_2, Phase_Accum_2, Lookup_Ptr_2 ; global variables
 extrn	Lookup_Table	; global data
+extrn	Phase_Jump_2
 
 psect	udata_acs   ; reserve data space in access ram
-Phase_Jump_2:	ds  2
 Phase_Accum_2:	ds  2
 Lookup_Ptr_2:	ds  3
 
