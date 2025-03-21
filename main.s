@@ -4,6 +4,7 @@ extrn	Phase_Setup_1, IO_Setup_1, Lookup_Setup_1
 extrn	Phase_Setup_2, IO_Setup_2, Lookup_Setup_2
 extrn	Phase_Setup_3, IO_Setup_3, Lookup_Setup_3
 extrn	Phase_Setup_4, IO_Setup_4, Lookup_Setup_4
+extrn	keyPad_Setup, keyPad_Read
 extrn	NCO_Int_Hi
 
 psect	code, abs
@@ -26,7 +27,10 @@ Start:	call	Timer_Setup
  	call	Lookup_Setup_2
 	call	Lookup_Setup_3
  	call	Lookup_Setup_4
-	goto	$	; Sit in infinite loop
+	call	keyPad_Setup
+loop:
+	call	keyPad_Read
+	goto	loop
 
 Timer_Setup:
 	movlw	11001000B	; Set timer0 to 8-bit, Fosc/4
