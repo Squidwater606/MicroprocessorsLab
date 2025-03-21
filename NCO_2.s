@@ -16,10 +16,10 @@ Phase_Setup_2:
 	clrf	Phase_Accum_2,	    A
 	clrf	Phase_Jump_2 + 1,	    A
 	clrf	Phase_Jump_2,	    A
-	movlw	0x2A
-	movwf	Phase_Jump_2,	    A
-	movlw	0x02
-	movwf	Phase_Jump_2 + 1,	    A
+	;movlw	0x2A
+	;movwf	Phase_Jump_2,	    A
+	;movlw	0x02
+	;movwf	Phase_Jump_2 + 1,	    A
 	return
 
 IO_Setup_2:
